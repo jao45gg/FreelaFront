@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 
 export default function SignUpPage() {
 
@@ -10,8 +10,9 @@ export default function SignUpPage() {
 
   useEffect(() => {
 
-    const token = localStorage.getItem("token");
-    if (token) navigate("/home");
+    let token = localStorage.getItem("token");
+    token = JSON.parse(token);
+    if (token?.token) navigate("/home");
 
   });
 

@@ -4,32 +4,31 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-export default function SignInPage() {
+export default function SignInPage({ setUpdate }) {
 
     const navigate = useNavigate();
+    let token = localStorage.getItem("token");
+    token = JSON.parse(token);
 
     useEffect(() => {
 
-        let token = localStorage.getItem("token");
-        token = JSON.parse(token);
-        if (token?.token) navigate("/home");
-
     });
 
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [photo, setPhoto] = useState("");
+    const [description, setDescription] = useState("");
 
     function signIn(e) {
 
         e.preventDefault();
 
-        axios.post(`${process.env.REACT_APP_API_URL}/signin`, {
-            email: email,
-            password: password
-        })
+        axios.post(`${process.env.REACT_APP_API_URL}/newPost`, {
+            photo,
+            description
+        }, {
+            headers: { Authorization: `Bearer ${token.token}` }
+        },)
             .then(res => {
-                const data = JSON.stringify(res.data);
-                localStorage.setItem("token", data);
+                setUpdate(1);
                 navigate("/home");
             })
             .catch(err => {
@@ -47,13 +46,14 @@ export default function SignInPage() {
         <SingInContainer>
             <Header>FomeBook</Header>
             <form onSubmit={signIn}>
-                <input placeholder="E-mail" type="email" required value={email} onChange={e => setEmail(e.target.value)} />
-                <input placeholder="Senha" type="password" autoComplete="new-password" required value={password} onChange={e => setPassword(e.target.value)} />
-                <button>Entrar</button>
+                <Title>Novo Post</Title>
+                <input placeholder="foto" type="url" required value={photo} onChange={e => setPhoto(e.target.value)} />
+                <input placeholder="descrição" type="text" autoComplete="new-password" required value={description} onChange={e => setDescription(e.target.value)} />
+                <button>Criar Post</button>
             </form>
 
-            <Link to={"/cadastro"}>
-                Primeira vez? Cadastre-se!
+            <Link to={"/home"}>
+                Cancelar
             </Link>
         </SingInContainer>
     )
@@ -74,4 +74,12 @@ const Header = styled.header`
     font-weight: 600;
     font-size: 7dvh;
     color: #fff;
+`;
+
+const Title = styled.header`
+    font-family: 'Roboto', sans-serif;
+    font-weight: 600;
+    font-size: 4dvh;
+    color: #fff;
+    margin-bottom: 4dvh;
 `;
