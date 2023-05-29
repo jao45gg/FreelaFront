@@ -1,10 +1,9 @@
 import styled from "styled-components";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import dayjs from "dayjs";
+import { useNavigate } from "react-router-dom"
 
-export default function HomePage({ updateApp }) {
+export default function FollowsPage({ updateApp }) {
 
     const navigate = useNavigate();
     let token = localStorage.getItem("token");
@@ -41,23 +40,11 @@ export default function HomePage({ updateApp }) {
                         <h2>{user?.biography}</h2>
                     </div>
                     <div className="buttons">
-                        <button onClick={() => navigate("/followers")}>Ver seguidores</button>
-                        <button onClick={() => navigate("/follows")}>Ver quem eu sigo</button>
+                        <button>Ver seguidores</button>
+                        <button>Ver quem eu sigo</button>
                     </div>
                 </TextContainer>
             </UserContainer>
-            <PostsContainer >
-                {user?.posts?.map((u, index) =>
-                    <Posts index={index}>
-                        <img src={u.photo} alt="post" />
-                        <div className="textpost">
-                            <h1>{`${u.likesCount} curtiram sua foto !`}</h1>
-                            <h1>{`${dayjs(u.postedAt).format("DD/MM/YYYY")} às ${dayjs(u.postedAt).format("HH:MM")}`}</h1>
-                        </div>
-                        <div className="description">{u.description}</div>
-                    </Posts>)}
-            </PostsContainer>
-            <Button onClick={() => navigate("/newPost")}>+</Button>
         </Container>
     );
 }
@@ -93,48 +80,6 @@ const UserContainer = styled.div`
     justify-content: center;
     padding: 3dvh;
     border-radius: 5px;
-`;
-
-const Posts = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    padding: 20px;
-    background-color: gainsboro;
-    margin-bottom: 5dvh;
-    img {
-        width: 100%;
-        height: 30dvh;
-    }
-    .textpost {
-        display: flex;
-        justify-content: space-between;
-        height: 3dvh;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-    .description {
-        height: 6dvh;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-    height: 50dvh;
-    border: 10px;
-    border-color: red;
-`;
-
-const PostsContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    background-color: #fff;
-    border-radius: 5px;
-    width: 70dvw;
-    height: 50dvh;
-    padding: 20px;
-    overflow-y: scroll;
-    margin-bottom: 2dvh;
 `;
 
 const TextContainer = styled.div`
@@ -176,19 +121,4 @@ const TextContainer = styled.div`
             font-size: 1.4dvh;
         }
     }
-`;
-
-const Button = styled.h1`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 75px;
-    height: 75px;
-    background-color: #f5f5f5;
-    border-radius: 50%;
-    position: fixed;
-    bottom: 3%;
-    right: 3%;
-    font-size: 2dvh;
-    cursor: pointer;
 `;

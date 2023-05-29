@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-export default function SignInPage({ setUpdate }) {
+export default function NewPostPage({ setUpdate }) {
 
     const navigate = useNavigate();
     let token = localStorage.getItem("token");
